@@ -1,6 +1,6 @@
 const express = require('express');
-// const { productsController } = require('./controllers');
 const { productsRouter } = require('./routers');
+const { salesRouter } = require('./routers');
 
 const app = express();
 
@@ -13,20 +13,6 @@ app.get('/', (_request, response) => {
 
 app.use('/products', productsRouter);
 
-// app.get('/products', async (_req, res) => {
-//   const result = await productsController.findAll();
-//   res.status(200).json(result);
-// });
-
-// app.get('/products/:id', async (req, res) => {
-//   const { id } = req.params;
-//   const result = await productsController.findById(id);
-//   if (result) {
-//     return res.status(200).json(result);
-//   }
-//   return res.status(404).json({
-//     message: 'Product not found',
-//   });
-// });
+app.use('/sales', salesRouter);
 
 module.exports = app;

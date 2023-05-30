@@ -44,7 +44,7 @@ describe('Testando productsController', function () {
       expect(res.json).to.have.been.calledWith(mockProducts);
     });
   });
-  describe('Teste', function () {
+  describe('Produto com id inexistente deve retornar mensagem e status 404', function () {
     it('Retorna mensagem product not found e status 404', async function () {
       const res = {};
       const req = { params: { id: 10000 } };
