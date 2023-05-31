@@ -8,7 +8,7 @@ const { expect } = chai;
 const { productsService } = require('../../src/services');
 const { productsController } = require('../../src/controllers');
 const mockProducts = require('../../src/mocks/products');
-// const { productsModel } = require('../../src/models');
+const { productNameValidation } = require('../../src/middlewares/productNameValidation');
 
 describe('Testando productsController', function () {
   describe('Listagem de todos os produtos', function () {
@@ -78,6 +78,47 @@ describe('Testando productsController', function () {
   
       expect(res.status).to.have.been.calledWith(201);
       expect(res.json).to.have.been.calledWith({ name: 'Camisa' });
+    });
+  });
+  describe('Testando o middleware productNameValidation', function () {
+    let req;
+    let res;
+    let next;
+  
+    beforeEach(function () {
+      req = {
+        body: {},
+      };
+  
+      res = {
+        status: sinon.stub().returnsThis(),
+        json: sinon.stub(),
+      };
+  
+      next = sinon.stub();
+    });
+  
+    it('deve retornar status 400 se o name for vazio', function () {
+      req.body.name = '';
+  
+      productNameValidation(req, res, next);
+  
+      sinon.assert.calledWith(res.status, 400);
+      sinon.assert.calledWith(res.json, {
+        message: '"name" is required',
+      });
+      sinon.assert.notCalled(next);
+    });
+    it('deve retornar status 422 se o name tiver menos de 5 caracteres', function () {
+      req.body.name = 'abc';
+  
+      productNameValidation(req, res, next);
+  
+      sinon.assert.calledWith(res.status, 422);
+      sinon.assert.calledWith(res.json, {
+        message: '"name" length must be at least 5 characters long',
+      });
+      sinon.assert.notCalled(next);
     });
   });
   afterEach(function () {
