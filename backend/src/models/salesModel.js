@@ -19,6 +19,7 @@ const findById = async (saleId) => {
       ORDER BY sale_id ASC, product_id ASC`,
       [saleId],
     );
+    console.log(result);
     return result;
   };
 
