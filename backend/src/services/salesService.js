@@ -11,7 +11,17 @@ const findAll = async () => {
     return result;
   };
 
+  const createSales = async (salesData) => {
+    const teste = {
+      id: await salesModel.createSales(salesData),
+      itemsSold: salesData,
+    };
+    // console.log(teste);
+    return teste;
+  };
+
   module.exports = {
     findAll,
     findById,
+    createSales,
   };

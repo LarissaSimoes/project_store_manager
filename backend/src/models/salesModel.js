@@ -19,11 +19,22 @@ const findById = async (saleId) => {
       ORDER BY sale_id ASC, product_id ASC`,
       [saleId],
     );
-    console.log(result);
     return result;
+  };
+
+const createSales = async (salesData) => {
+    const [{ insertId }] = await connection.execute(`INSERT INTO sales (date) 
+    VALUES (CURRENT_TIMESTAMP)`);
+    const sales = salesData
+    .map(({ productId, quantity }) => connection.execute(`
+    INSERT INTO sales_products
+    (sale_id, product_id, quantity) VALUES (?, ?, ?)`, [insertId, productId, quantity]));
+    await Promise.all(sales);
+    return insertId;
   };
 
 module.exports = {
     findAll,
     findById,
+    createSales,
 };  
