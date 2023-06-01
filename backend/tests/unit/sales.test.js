@@ -77,45 +77,24 @@ describe('Testando salesController', function () {
         ],
       };
       
-      // const res = {};
       const res = {
         status: sinon.stub().returnsThis(),
         json: sinon.stub(),
       };
       
-      // res.status = sinon.stub().returns(res);
-      // res.json = sinon.stub().returns();
-
       sinon.stub(salesService, 'createSales').resolves({
         id: 3,
         itemsSold: req.body,
       });
-      
-      // sinon.stub(salesService, 'createSales').resolves(req.body);
   
       await salesController.createSales(req, res);
       expect(res.status).to.have.been.calledWith(201);
-expect(res.json).to.have.been.calledWith({
-  id: 3,
-  itemsSold: req.body,
-});
-  
-      // expect(res.status).to.have.been.calledWith(201);
-      // expect(res.json).to.have.been.calledWith({
-      //   id: 3,
-      //   itemsSold: [
-      //     {
-      //       productId: 1,
-      //       quantity: 1,
-      //     },
-      //     {
-      //       productId: 2,
-      //       quantity: 5,
-      //     },
-      //   ],
-      // });
+      expect(res.json).to.have.been.calledWith({
+        id: 3,
+        itemsSold: req.body,
+     });
     });
-  });
+   });
   afterEach(function () {
     sinon.restore();
   });
