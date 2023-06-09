@@ -9,6 +9,7 @@ const { productsService } = require('../../src/services');
 const { productsController } = require('../../src/controllers');
 const mockProducts = require('../../src/mocks/products');
 const { productNameValidation } = require('../../src/middlewares/productNameValidation');
+const { productsModel } = require('../../src/models');
 
 describe('Testando productsController', function () {
   describe('Listagem de todos os produtos', function () {
@@ -121,6 +122,33 @@ describe('Testando productsController', function () {
       sinon.assert.notCalled(next);
     });
   });
+  describe('productsModel - updateProduct', function () {
+    it('should update a product successfully', async function () {
+      const id = 1;
+      const name = 'New Product Name';
+      const expectedUpdatedProduct = {
+        id: 1,
+        name: 'New Product Name',
+      };
+  
+      // Crie um stub para o método updateProduct da camada model
+      const updateProductStub = sinon.stub(productsModel, 'updateProduct')
+      .resolves(expectedUpdatedProduct);
+  
+      // Chame o método updateProduct do serviço, passando os argumentos necessários
+      const updatedProduct = await productsService.updateProduct(id, name);
+  
+      // Verifique se o stub foi chamado corretamente
+      expect(updateProductStub.calledOnceWith(id, name)).to.be.equal(true);
+  
+      // Verifique o resultado retornado pelo método updateProduct
+      expect(updatedProduct).to.deep.equal(expectedUpdatedProduct);
+  
+      // Restaure o stub para seu comportamento original
+      updateProductStub.restore();
+    });
+  });
+  
   afterEach(function () {
     sinon.restore();
   });
