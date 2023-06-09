@@ -18,15 +18,7 @@ const sales = [
         quantity: 15,
       },
   ];
-
-  const newSale = [
-    {
-      productId: 1,
-      quantity: 1,
-    },
-  ];
   
   module.exports = {
     sales,
-    newSale,
   };
