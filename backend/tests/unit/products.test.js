@@ -123,7 +123,7 @@ describe('Testando productsController', function () {
     });
   });
   describe('productsModel - updateProduct', function () {
-    it('should update a product successfully', async function () {
+    it('deve atualizar um produto com sucesso', async function () {
       const id = 1;
       const name = 'New Product Name';
       const expectedUpdatedProduct = {
@@ -131,20 +131,15 @@ describe('Testando productsController', function () {
         name: 'New Product Name',
       };
   
-      // Crie um stub para o método updateProduct da camada model
       const updateProductStub = sinon.stub(productsModel, 'updateProduct')
       .resolves(expectedUpdatedProduct);
   
-      // Chame o método updateProduct do serviço, passando os argumentos necessários
       const updatedProduct = await productsService.updateProduct(id, name);
   
-      // Verifique se o stub foi chamado corretamente
       expect(updateProductStub.calledOnceWith(id, name)).to.be.equal(true);
   
-      // Verifique o resultado retornado pelo método updateProduct
       expect(updatedProduct).to.deep.equal(expectedUpdatedProduct);
-  
-      // Restaure o stub para seu comportamento original
+
       updateProductStub.restore();
     });
   });
