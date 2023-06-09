@@ -22,19 +22,27 @@ const findById = async (saleId) => {
     return result;
   };
 
-const createSales = async (salesData) => {
-    const [{ insertId }] = await connection.execute(`INSERT INTO sales (date) 
-    VALUES (CURRENT_TIMESTAMP)`);
-    const sales = salesData
-    .map(({ productId, quantity }) => connection.execute(`
-    INSERT INTO sales_products
-    (sale_id, product_id, quantity) VALUES (?, ?, ?)`, [insertId, productId, quantity]));
-    await Promise.all(sales);
-    return insertId;
+const createSaleId = async () => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO sales (date) VALUE (DATE(NOW()))',
+  );
+  return insertId;
+};
+
+const createSale = async (insertId, productId, quantity) => {
+  await connection.execute(
+    'INSERT INTO sales_products (sale_id, product_id, quantity) VALUES(?, ?, ?)',
+    [insertId, productId, quantity],
+  );
+  return {
+    productId, 
+    quantity,
   };
+};
 
 module.exports = {
     findAll,
     findById,
-    createSales,
+    createSaleId,
+    createSale,
 };  

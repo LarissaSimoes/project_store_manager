@@ -15,15 +15,15 @@ const findAll = async (_req, res) => {
     res.status(200).json(result);
   };
 
-  const createSales = async (req, res) => {
-    const sale = req.body;
-    const result = await salesService.createSales(sale);
-    console.log(result);
+  const createSale = async (req, res) => {
+    const product = req.body;
+    const result = await salesService.createSale(product);
+    if (result.message) return res.status(422).json(result);
     res.status(201).json(result);
   };
 
   module.exports = {
     findAll,
     findById,
-    createSales,
+    createSale,
   };
