@@ -2,9 +2,9 @@ const { saleSchema, quantitySchema } = require('./schemas');
 
 const validateSale = (product) => {
   const { error } = saleSchema.validate(product);
-  if (error) return { message: error.message.replace(/\[\d\]./, '') };
-
-  return { message: null };
+  return {
+    message: error ? error.message.replace(/\[\d\]./, '') : null,
+  };
 };
 
 const validateQuantity = (quantity) => {
